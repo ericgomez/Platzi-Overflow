@@ -48,6 +48,37 @@ async function init () {
       }
     })
 
+    /**
+     * Rutas para el registro de usuarios
+     * 
+     * el objeto request permite recuperar los datos de la petición. 
+     * sus propiedades son path, method, 
+     * params, query, get, payload (PUT/POST)
+     * 
+     * El objeto request tiene un ciclo de vida en HapiJS
+     */
+    server.route({
+      method: 'GET',
+      path: '/register',
+      handler: (request, h) => {
+        // El plugin de vision inyecta el metodo view al objeto h para renderizar una vista que seria register.hbs
+        return h.view('register', {
+          // El plugin de vision inyecta los parametros que requiere el layout.hbs
+          title: 'Registro'
+        })
+      }
+    })
+
+    server.route({
+      method: 'POST',
+      path: '/create-user',
+      handler: (req, h) => {
+        // Mostrar en consola el cuerpo de la petición el req tiene la propiedad payload
+        console.log(req.payload)
+        return 'Usuario creado satisfactoriamente'
+      }
+    })
+
     // RUTA PARA SERVIR ARCHIVOS ESTÁTICOS ASOCIADOS (IMG/CSS/JS)
     server.route({
       method: 'GET',
