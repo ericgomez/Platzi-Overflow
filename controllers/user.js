@@ -1,6 +1,5 @@
 'use strict'
 
-const Boom = require('@hapi/boom')
 // Importar el archivo de conexión a la base de datos
 const { users } = require('../models/index')
 
@@ -62,7 +61,16 @@ function logout(req, h) {
 }
 
 function failValidation (req, h, err) {
-  return Boom.badRequest('Falló la validación', req.payload)
+  const templates = {
+    '/create-user': 'register',
+    '/validate-user': 'login'
+  }
+
+  // reutilizo la misma vista para los templates con templates[req.path]
+  return h.view(templates[req.path], {
+    title: 'Error de validación',
+    error: 'Por favor complete los campos requeridos'
+  }).code(400).takeover() // Se requiere el .takeover() para retornar directamente el mensaje
 }
 
 module.exports = {
