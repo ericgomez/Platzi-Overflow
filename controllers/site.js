@@ -16,7 +16,17 @@ function register (req, h) {
   })
 }
 
+/**
+ * Controladores encargados de mostrar la vista de login (formulario)
+ * Procesar la data del usuario para verificar que sus credenciales de acceso sean las correctas
+ * Leer en la base de datos (Firebase)
+ */
+ function login(req, h) {
+  return h.view('login', { title: 'Login' })
+}
+
 module.exports = {
   home: home,
-  register: register
+  register: register,
+  login: login
 }

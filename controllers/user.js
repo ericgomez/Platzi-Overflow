@@ -19,6 +19,17 @@ const { users } = require('../models/index')
   }
 }
 
+async function validateUser(req, h) {
+  try {
+    const userLogin = await users.validateUser(req.payload)
+    return userLogin
+  } catch (error) {
+    console.error(error)
+    return h.response('Problemas al logear el usuario').code(500)
+  }
+}
+
 module.exports = {
-  createUser: createUser
+  createUser: createUser,
+  validateUser: validateUser
 }
