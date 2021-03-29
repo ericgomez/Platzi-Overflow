@@ -13,10 +13,17 @@ const { users } = require('../models/index')
   try {
     // Mostrar en consola el cuerpo de la petición el req tiene la propiedad payload
     const createUserId = await users.create(req.payload)
-    return h.response(`Usuario registrado satisfactoriamente con el ID ${createUserId}`).code(201)
+    console.log(`Usuario registrado ${createUserId}`)
+    return h.view('register', {
+      title: 'Registro',
+      success: 'Usuario creado exitosamente'
+    })
   } catch (error) {
     console.error(error)
-    return h.response('Problemas al registrar el usuario').code(500)
+    return h.view('register', {
+      title: 'Registro',
+      error: 'Error creando el usuario'
+    })
   }
 }
 
@@ -25,7 +32,10 @@ async function validateUser(req, h) {
     const userLogin = await users.validateUser(req.payload)
 
     if (!userLogin) {
-      return h.response('Email y/o Contraseña incorrectas').code(401)
+      return h.view('login', {
+        title: 'Login',
+        error: 'Email y/o contraseña incorrecta'
+      })
     }
 
     // En aplicaciones Web, las cookies se usan a menudo para mentener el estado de un usuario entre solicitudes http
@@ -38,7 +48,10 @@ async function validateUser(req, h) {
 
   } catch (error) {
     console.error(error)
-    return h.response('Problemas al logear el usuario').code(500)
+    return h.view('login', {
+      title: 'Login',
+      error: 'Problemas validando el usuario'
+    })
   }
 }
 

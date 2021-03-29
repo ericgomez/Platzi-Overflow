@@ -40,8 +40,14 @@ function register (req, h) {
   })
 }
 
+// Ruta no encontrada
+function notFound (req, h) {
+  return h.view('404', {}, { layout: 'error-layout' }).code(404)
+}
+
 module.exports = {
   home: home,
   register: register,
+  notFound: notFound,
   login: login
 }
