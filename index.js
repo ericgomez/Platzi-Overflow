@@ -24,6 +24,18 @@ async function init () {
     await server.register(inert)
     await server.register(vision)// Registrar plugin para gestionar el motor de plantillas
 
+
+    // Configurar el servidor para el envio de cookies (nombreCookie, opciones)
+    // https://hapi.dev/tutorials/cookies/?lang=en_US
+    // tiempo de vida de la cookie (en milisegundos)
+    // localhost no es seguro
+    // codificación de la cookie
+    server.state('user', {
+      ttl: 1000 * 60 * 60 * 24 * 7, //timeToLive por una semana
+      isSecure: process.env.NODE_ENV === 'prod',
+      encoding: 'base64json'
+    })
+
     // Configurar nuestro motor de plantillas. Usará handlebars y cuando invoquemos una vista automáticamente buscará una con extensión hbs (no hace falta especificarlo). Debe buscar a partir del directorio actual, las vistas se encuentran en views y se activa compatibilidad con layouts, los cuales se encuentran en layouts
     server.views({
       engines: { // --- hapi puede usar diferentes engines
