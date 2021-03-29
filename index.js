@@ -12,7 +12,17 @@ async function init () {
     method: 'GET',
     path: '/',
     handler: (request, h) => {
-      return 'Hola Mundo'
+      // h.response(): Crea un objeto de respuesta.
+      return h.response('Hola Mundo ...').code(200)
+    }
+  })
+
+  server.route({
+    method: 'GET',
+    path: '/redirect',
+    handler: (request, h) => {
+      // h.redirect(): Redirecciona una petición.
+      return h.redirect('http://platzi.com')
     }
   })
 
