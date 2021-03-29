@@ -7,6 +7,7 @@ const path = require('path')
 const server = Hapi.server({
   port: process.env.PORT || 3000,
   host: 'localhost',
+  // SE DECLRAR LA VARIABLE/OBJETO PARA DECLRAR LA RUTA A LA CARPETA DE ARCHIVOS ESTATICOS
   routes: {
     files: {
       relativeTo: path.join(__dirname, 'public')
@@ -16,17 +17,21 @@ const server = Hapi.server({
 
 async function init () {
   try {
+    // REGISTRAR LOS PLUGINS QUE HAPI VA A NECESITAR PARA SERVIR ARCHIVOS ESTATICOS
     await server.register(inert)
 
+    // DEFINICIÓN DE RUTAS SE INDICA EL MÉTODO HTTP, URL Y CONTROLADOR/handler DE RUTA
+    // SE DECLARAN DESPUÉS DEL PLUGIN YA QUE LAS RUTAS HACEN USO DEL MISOM PARA DEVOLVER ARCHIVOS ESTATICOS
     server.route({
       method: 'GET',
       path: '/home',
       handler: (request, h) => {
-        // h.response(): Crea un objeto de respuesta.
+        // POR EL INERT SE TIENEN ACCESO AL METODO h.file()
         return h.file('index.html')
       }
     })
 
+    // RUTA PARA SERVIR ARCHIVOS ESTÁTICOS ASOCIADOS (IMG/CSS/JS)
     server.route({
       method: 'GET',
       path: '/{param*}',
