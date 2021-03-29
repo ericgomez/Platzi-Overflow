@@ -1,5 +1,6 @@
 'use strict'
 
+const Boom = require('@hapi/boom')
 // Importar el archivo de conexión a la base de datos
 const { users } = require('../models/index')
 
@@ -47,8 +48,13 @@ function logout(req, h) {
   return h.redirect('/login').unstate('user')
 }
 
+function failValidation (req, h, err) {
+  return Boom.badRequest('Falló la validación', req.payload)
+}
+
 module.exports = {
   createUser: createUser,
   validateUser: validateUser,
+  failValidation: failValidation,
   logout: logout
 }

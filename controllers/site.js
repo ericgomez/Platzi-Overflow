@@ -10,6 +10,11 @@ function home (req, h) {
 }
 
 function register (req, h) {
+  // Validamos si el usuario tiene estado:logeado solo lo redireccionamos
+  if (req.state.user) {
+    return h.redirect('/')
+  }
+  
   // El plugin de vision inyecta el metodo view al objeto h para renderizar una vista que seria register.hbs
   return h.view('register', {
     // El plugin de vision inyecta los parametros que requiere el layout.hbs
@@ -24,6 +29,11 @@ function register (req, h) {
  * Leer en la base de datos (Firebase)
  */
  function login(req, h) {
+  // Validamos si el usuario tiene estado:logeado solo lo redireccionamos
+  if (req.state.user) {
+    return h.redirect('/')
+  }
+
   return h.view('login', {
      title: 'Login',
      user: req.state.user

@@ -59,4 +59,13 @@ async function init () {
   console.log(`Servidor lanzado en: ${server.info.uri}`)
 }
 
+// Controlamos los Errores a nivel de proceso
+process.on('unhandledRejection', error => {
+  console.error('UnhandledRejection', error.message, error)
+})
+// Controlamos excepciones a nivel de proceso
+process.on('unhandledException', error => {
+  console.error('unhandledException', error.message, error)
+})
+
 init()
