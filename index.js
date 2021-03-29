@@ -4,6 +4,7 @@ const Hapi = require('@hapi/hapi')
 const inert = require('@hapi/inert')
 const vision = require('@hapi/vision')
 const path = require('path')
+const routes = require('./routes')
 const handlebars = require('handlebars')
 
 const server = Hapi.server({
@@ -34,62 +35,8 @@ async function init () {
       layoutPath: 'views' // --- ubicación de los layouts
     })
 
-    // DEFINICIÓN DE RUTAS SE INDICA EL MÉTODO HTTP, URL Y CONTROLADOR/handler DE RUTA
-    // SE DECLARAN DESPUÉS DEL PLUGIN YA QUE LAS RUTAS HACEN USO DEL MISOM PARA DEVOLVER ARCHIVOS ESTATICOS
-    server.route({
-      method: 'GET',
-      path: '/',
-      handler: (request, h) => {
-        // El plugin de vision inyecta el metodo view al objeto h para renderizar una vista que seria index.hbs
-        return h.view('index', {
-          // El plugin de vision inyecta los parametros que requiere el layout.hbs
-          title: 'Home'
-        })
-      }
-    })
-
-    /**
-     * Rutas para el registro de usuarios
-     * 
-     * el objeto request permite recuperar los datos de la petición. 
-     * sus propiedades son path, method, 
-     * params, query, get, payload (PUT/POST)
-     * 
-     * El objeto request tiene un ciclo de vida en HapiJS
-     */
-    server.route({
-      method: 'GET',
-      path: '/register',
-      handler: (request, h) => {
-        // El plugin de vision inyecta el metodo view al objeto h para renderizar una vista que seria register.hbs
-        return h.view('register', {
-          // El plugin de vision inyecta los parametros que requiere el layout.hbs
-          title: 'Registro'
-        })
-      }
-    })
-
-    server.route({
-      method: 'POST',
-      path: '/create-user',
-      handler: (req, h) => {
-        // Mostrar en consola el cuerpo de la petición el req tiene la propiedad payload
-        console.log(req.payload)
-        return 'Usuario creado satisfactoriamente'
-      }
-    })
-
-    // RUTA PARA SERVIR ARCHIVOS ESTÁTICOS ASOCIADOS (IMG/CSS/JS)
-    server.route({
-      method: 'GET',
-      path: '/{param*}',
-      handler: {
-        directory: {
-          path: '.',
-          index: ['index.html']
-        }
-      }
-    })
+    // Utilizamos la rutas en el sevidor
+    server.route(routes)
 
     await server.start()
   } catch (error) {
