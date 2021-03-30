@@ -6,6 +6,7 @@ const vision = require('@hapi/vision')
 const Crumb = require('@hapi/crumb')
 const Scooter = require('@hapi/scooter')
 const blankie = require('blankie')
+const hapiDevErrors = require('hapi-dev-errors')
 const path = require('path')
 const routes = require('./routes')
 const site = require('./controllers/site')
@@ -61,6 +62,13 @@ async function init () {
         generateNonces: false
       }
     }])
+
+    await server.register({
+      plugin: hapiDevErrors,
+      options: {
+        showErrors: process.env.NODE_ENV !== 'prod'
+      }
+    })
 
     // Registramos nuestro plugin en este caso: api
     await server.register({
