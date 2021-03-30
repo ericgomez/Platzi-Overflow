@@ -53,7 +53,7 @@ async function viewQuestion (req, h) {
       return notFound(req, h)
     }
   } catch (error) {
-    console.error(error)
+    req.log('error', error)
   }
 
   return h.view('question', {

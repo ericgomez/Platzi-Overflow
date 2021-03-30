@@ -12,13 +12,13 @@ const { users } = require('../models/index')
   try {
     // Mostrar en consola el cuerpo de la petición el req tiene la propiedad payload
     const createUserId = await users.create(req.payload)
-    console.log(`Usuario registrado ${createUserId}`)
+    req.log('info',`Usuario registrado ${createUserId}`)
     return h.view('register', {
       title: 'Registro',
       success: 'Usuario creado exitosamente'
     })
   } catch (error) {
-    console.error(error)
+    req.log('error',error)
     return h.view('register', {
       title: 'Registro',
       error: 'Error creando el usuario'
@@ -46,7 +46,7 @@ async function validateUser(req, h) {
     })
 
   } catch (error) {
-    console.error(error)
+    req.log('error',error)
     return h.view('login', {
       title: 'Login',
       error: 'Problemas validando el usuario'

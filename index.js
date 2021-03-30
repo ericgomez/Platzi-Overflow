@@ -25,6 +25,19 @@ async function init () {
     // REGISTRAR LOS PLUGINS QUE HAPI VA A NECESITAR PARA SERVIR ARCHIVOS ESTATICOS
     await server.register(inert)
     await server.register(vision)// Registrar plugin para gestionar el motor de plantillas
+    await server.register({
+      plugin: require('@hapi/good'),
+      options: {
+        reporters: {
+          console: [
+            {
+              module: require('@hapi/good-console'),
+            },
+            'stdout'
+          ]
+        }
+      }
+    })
 
     server.method('setAnswerRight', methods.setAnswerRight)
     server.method('getLast', methods.getLast, {
@@ -62,20 +75,20 @@ async function init () {
 
     await server.start()
   } catch (error) {
-    console.error(error)
+    server.log('error',error)
     process.exit(1)
   }
 
-  console.log(`Servidor lanzado en: ${server.info.uri}`)
+  server.log('info', `Servidor lanzado en: ${server.info.uri}`)
 }
 
 // Controlamos los Errores a nivel de proceso
 process.on('unhandledRejection', error => {
-  console.error('UnhandledRejection', error.message, error)
+  server.log('UnhandledRejection', error.message, error)
 })
 // Controlamos excepciones a nivel de proceso
 process.on('unhandledException', error => {
-  console.error('unhandledException', error.message, error)
+  server.log('unhandledException', error.message, error)
 })
 
 init()
