@@ -39,6 +39,14 @@ async function init () {
       }
     })
 
+    // Registramos nuestro plugin en este caso: api
+    await server.register({
+      plugin: require('./lib/api'),
+      options: {
+        prefix: 'api' // prefix puede ser otro valor, el resultado es http://localhost:3000/api
+      }
+    })
+
     server.method('setAnswerRight', methods.setAnswerRight)
     server.method('getLast', methods.getLast, {
       cache: {
