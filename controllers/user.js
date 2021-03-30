@@ -63,7 +63,8 @@ function logout(req, h) {
 function failValidation (req, h, err) {
   const templates = {
     '/create-user': 'register',
-    '/validate-user': 'login'
+    '/validate-user': 'login',
+    '/create-question': 'ask'
   }
 
   // reutilizo la misma vista para los templates con templates[req.path]
