@@ -6,12 +6,7 @@ const vision = require('@hapi/vision')
 const path = require('path')
 const routes = require('./routes')
 const site = require('./controllers/site')
-const handlebars = require('handlebars')
-
-handlebars.registerHelper('answerNumber', (answers) => {
-  const keys = Object.keys(answers)
-  return keys.length
-})
+const handlebars = require('./lib/helpers')
 
 const server = Hapi.server({
   port: process.env.PORT || 3000,
