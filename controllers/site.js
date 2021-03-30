@@ -1,11 +1,20 @@
 'use strict'
 
-function home (req, h) {
+const { questions } = require('../models/index')
+
+async function home (req, h) {
+  let data
+  try {
+    data = await questions.getLast(10)
+  } catch (error) {
+    console.error(error)
+  }
   // El plugin de vision inyecta el metodo view al objeto h para renderizar una vista que seria index.hbs
   return h.view('index', {
     // El plugin de vision inyecta los parametros que requiere el layout.hbs
     title: 'Home',
-    user: req.state.user
+    user: req.state.user,
+    questions: data
   })
 }
 
