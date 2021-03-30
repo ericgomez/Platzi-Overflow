@@ -3,6 +3,10 @@
 const { questions } = require('../models/index')
 
 async function createQuestion (req, h) {
+  if (!req.state.user) {
+    return h.redirect('/login')
+  }
+
   try {
     // Realizamos la destructuracion de la pregunta para eliminar [Object: null prototype]
     const question = { ...req.payload}
@@ -22,6 +26,10 @@ async function createQuestion (req, h) {
 }
 
 async function answerQuestion (req, h) {
+  if (!req.state.user) {
+    return h.redirect('/login')
+  }
+
   let result
   try {
     result = await questions.answer(req.payload, req.state.user)
@@ -33,7 +41,22 @@ async function answerQuestion (req, h) {
   return h.redirect(`/question/${req.payload.id}`)
 }
 
+async function setAnswerRight (req, h) {
+  if (!req.state.user) {
+    return h.redirect('/login')
+  }
+
+  try {
+    const result = await req.server.methods.setAnswerRight(req.params.questionId, req.params.answerId, req.state.user)
+    console.log(result)
+    return h.redirect(`/question/${req.params.questionId}`)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 module.exports = {
   answerQuestion: answerQuestion,
+  setAnswerRight: setAnswerRight,
   createQuestion: createQuestion
 }
