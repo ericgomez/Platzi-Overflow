@@ -32,6 +32,28 @@ class Questions {
     answers.set({text: data.answer, user: user})
     return answers
   }
+
+  async setAnswerRight (questionId, answerId, user) {
+    // Firebase devuelve la respuesta
+    const query = await this.collection.child(questionId).once('value')
+    const question = query.val()
+    const answers = question.answers
+
+    // Si el usuario es el dueño de la pregunta
+    if (!user.email === question.owner.email) {
+      return false
+    }
+
+    for (let key in answers) {
+      // Marcar la propiedad correct para la respuesta correcta
+      answers[key].correct = (key === answerId)
+    }
+
+    // Actualizamos la pregunta
+    const update = await this.collection.child(questionId).child('answers').update(answers)
+    // Retornamos
+    return update
+  }
 }
 
 module.exports = Questions

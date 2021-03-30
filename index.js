@@ -7,6 +7,7 @@ const path = require('path')
 const routes = require('./routes')
 const site = require('./controllers/site')
 const handlebars = require('./lib/helpers')
+const methods = require('./lib/methods')
 
 const server = Hapi.server({
   port: process.env.PORT || 3000,
@@ -25,7 +26,8 @@ async function init () {
     await server.register(inert)
     await server.register(vision)// Registrar plugin para gestionar el motor de plantillas
 
-
+    server.method('setAnswerRight', methods.setAnswerRight)
+    
     // Configurar el servidor para el envio de cookies (nombreCookie, opciones)
     // https://hapi.dev/tutorials/cookies/?lang=en_US
     // tiempo de vida de la cookie (en milisegundos)
