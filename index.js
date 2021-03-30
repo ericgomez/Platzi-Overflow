@@ -3,7 +3,9 @@
 const Hapi = require('@hapi/hapi')
 const inert = require('@hapi/inert')
 const vision = require('@hapi/vision')
-const Crumb = require('@hapi/crumb');
+const Crumb = require('@hapi/crumb')
+const Scooter = require('@hapi/scooter')
+const blankie = require('blankie')
 const path = require('path')
 const routes = require('./routes')
 const site = require('./controllers/site')
@@ -48,6 +50,17 @@ async function init () {
         }
       }
     })
+
+    await server.register([Scooter, {
+      plugin: blankie,
+      options: {
+        defaultSrc: `'self' 'unsafe-inline'`,
+        styleSrc: `'self' 'unsafe-inline' https://maxcdn.bootstrapcdn.com`,
+        fontSrc: `'self' 'unsafe-inline' data:`,
+        scriptSrc: `'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com/ https://code.jquery.com/`,
+        generateNonces: false
+      }
+    }])
 
     // Registramos nuestro plugin en este caso: api
     await server.register({
