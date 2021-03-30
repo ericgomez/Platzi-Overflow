@@ -49,6 +49,25 @@ function register (req, h) {
   })
 }
 
+async function viewQuestion (req, h) {
+  let data
+  try {
+    data = await questions.getOne(req.params.id)
+    if (!data) {
+      return notFound(req, h)
+    }
+  } catch (error) {
+    console.error(error)
+  }
+
+  return h.view('question', {
+    title: 'Detalles de la pregunta',
+    user: req.state.user,
+    question: data,
+    key: req.params.id
+  })
+}
+
 // Ruta no encontrada
 function notFound (req, h) {
   return h.view('404', {}, { layout: 'error-layout' }).code(404)
@@ -81,5 +100,6 @@ module.exports = {
   fileNotFound: fileNotFound,
   register: register,
   notFound: notFound,
+  viewQuestion: viewQuestion,
   login: login
 }
