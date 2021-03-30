@@ -27,6 +27,12 @@ async function init () {
     await server.register(vision)// Registrar plugin para gestionar el motor de plantillas
 
     server.method('setAnswerRight', methods.setAnswerRight)
+    server.method('getLast', methods.getLast, {
+      cache: {
+        expiresIn: 1000 * 60,
+        generateTimeout: 2000
+      }
+    })
     
     // Configurar el servidor para el envio de cookies (nombreCookie, opciones)
     // https://hapi.dev/tutorials/cookies/?lang=en_US
