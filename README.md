@@ -1,6 +1,12 @@
-# PlatziOverflow
+# Curso de Node.js con Hapi
+#### Proyecto del curso
 
-Proyecto de ejemplo para el curso de HapiJS, es un sitio que permite crear preguntas y postear respuestas, el dueño de la respuesta puede seleccionar la respuesta correcta, incluye un API rest para obtener una pregunta especifica o varias. usa una base de datos de Firebase para almacenar la información
+![Proyect](https://static.platzi.com/media/user_upload/ProyectoHapi-5dbaf280-9874-44e9-81c5-686b1ff9fcda.jpg)
+
+## PlatziOverflow
+
+Este sitio que permite crear preguntas y postear respuestas, el dueño de la respuesta puede seleccionar la respuesta correcta, incluye un API rest para obtener una pregunta especifica o varias. usa una base de datos de Firebase para almacenar la información.
+
 
 ## Instrucciones
 
